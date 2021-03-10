@@ -7,7 +7,7 @@ source venv/bin/activate
 
 
 git add .
-git commit -m "now with proper requirements"
+git commit -m "heroku test"
 git push heroku master
 heroku ps:scale web=1
 heroku logs --tail
