@@ -1,0 +1,13 @@
+pip freeze > requirements.txt
+
+git init
+
+python3 -m virtualenv venv
+source venv/bin/activate
+
+
+git add .
+git commit -m "now with proper requirements"
+git push heroku master
+heroku ps:scale web=1
+heroku logs --tail
