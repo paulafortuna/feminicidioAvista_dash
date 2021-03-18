@@ -14,8 +14,5 @@ res = pd.DataFrame(df_crimes.groupby(['dateyear']).size())
 res['year'] = res.index
 res.to_csv('./data/crimes_per_year.tsv',sep='\t',index=False)
 
-# table news per year
-
-for year in res['year']:
-    df_crimes_sub = df_crimes[df_crimes['dateyear'] == year]
-    df_crimes_sub[['news_site_title','search_newspaper']].to_csv('./data/table_crimes_year_' + str(year) +'.tsv',sep='\t',index=False)
+# table crimes
+df_crimes[['news_site_title','search_newspaper','dateyear']].to_csv('./data/table_crimes.tsv',sep='\t',index=False)

@@ -8,6 +8,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_table
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
@@ -38,10 +39,12 @@ def generate_table(dataframe, max_rows=10):
 
 # assume you have a "long-form" data frame
 # see https://plotly.com/python/px-arguments/ for more options
-df = pd.read_csv('./data/crimes_per_year.tsv',sep='\t')
-df_table = pd.read_csv('./data/table_crimes_year_2016.tsv',sep='\t')
+df_crimes_year = pd.read_csv('./data/crimes_per_year.tsv',sep='\t')
+df_table = pd.read_csv('./data/table_crimes.tsv',sep='\t')
+min_year = min(df_crimes_year['year'])
+df_table_temp = df_table.loc[df_table['dateyear'].values == min_year]
 
-fig = px.bar(df, x="year", y="0")
+fig = px.bar(df_crimes_year, x="year", y="0")
 
 fig.update_layout(
     plot_bgcolor=colors['background'],
@@ -51,7 +54,7 @@ fig.update_layout(
 
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
-        children='Feminicidio à Vista',
+        children='Feminicídio à Vista',
         style={
             'textAlign': 'center',
             'color': colors['text']
@@ -65,16 +68,22 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         id='graph',
         figure=fig
     ),
-    html.Pre(id='output')
-    #html.H6("Clica num ano para ver as notícias."),
-    #generate_table(df_table)
+    html.Pre(id='output'),
+    html.H6("Clica numa barra para ver as notícias desse ano."),
+    dash_table.DataTable(
+        id='table_output',
+        columns=[{"name": i, "id": i} for i in df_table.columns],
+        data=df_table_temp.to_dict('records'),
+    )
+
 ])
 
 
-@app.callback(Output('output', 'children'), [
+@app.callback(Output('table_output', 'data'), [
     Input('graph', 'clickData')])
 def update_output(*args):
-    return json.dumps(args, indent=2)
+    year = args[0]['points'][0]['x']
+    return df_table.loc[df_table['dateyear'].values == year].to_dict('records')
 
 
 if __name__ == '__main__':
