@@ -18,8 +18,8 @@ import json
 with open('./data/temp_json.json') as json_file:
     continental_states_plot = json.load(json_file)
 df_total_crimes_district = pd.read_csv('./data/total_crimes_district.tsv',sep='\t')
-
-
+df_crimes_continental_table = pd.read_csv('./data/df_crimes_continental_save.tsv',sep='\t')
+df_crimes_continental_table_temp = df_crimes_continental_table.loc[df_crimes_continental_table['district'].values == 'LISBOA']
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -32,20 +32,6 @@ colors = {
 }
 
 
-#def generate_table(dataframe, max_rows=10):
-#    return html.Table([
-#        html.Thead(
-#            html.Tr([html.Th(col) for col in dataframe.columns])
-#        ),
-#        html.Tbody([
-#            html.Tr([
-#                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-#            ]) for i in range(min(len(dataframe), max_rows))
-#        ]),
-#    ])
-
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
 df_crimes_year = pd.read_csv('./data/crimes_per_year.tsv',sep='\t')
 df_table = pd.read_csv('./data/table_crimes.tsv',sep='\t')
 min_year = min(df_crimes_year['year'])
@@ -89,8 +75,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     html.Pre(id='output'),
     html.H6("Clica numa barra para ver as notícias desse ano."),
     dash_table.DataTable(
-        id='table_output',
-        columns=[{"name": i, "id": i} for i in df_table.columns],
+        id='table_year_output',
+        columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
         data=df_table_temp.to_dict('records'),
     ),
     html.Div([
@@ -99,15 +85,27 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             id='choropleth',
             figure=fig_plot,
         ),
-    ])
+    ]),
+    dash_table.DataTable(
+        id='table_region_output',
+        columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
+        data=df_crimes_continental_table_temp.to_dict('records'),
+    ),
 ])
 
 
-@app.callback(Output('table_output', 'data'), [
+@app.callback(Output('table_year_output', 'data'), [
     Input('graph', 'clickData')])
 def update_output(*args):
     year = args[0]['points'][0]['x']
     return df_table.loc[df_table['dateyear'].values == year].to_dict('records')
+
+
+@app.callback(Output('table_region_output', 'data'), [
+    Input('choropleth', 'clickData')])
+def update_output(*args):
+    district = args[0]['points'][0]['location']
+    return df_crimes_continental_table.loc[df_crimes_continental_table['district'] == district].to_dict('records')
 
 
 if __name__ == '__main__':
