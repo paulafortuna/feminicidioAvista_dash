@@ -12,15 +12,14 @@ import dash_table
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
-import json
-from shapely.geometry import Point, Polygon
-import geopandas as gpd
 
 # import geo data
+import json
+with open('./data/temp_json.json') as json_file:
+    continental_states_plot = json.load(json_file)
+df_total_crimes_district = pd.read_csv('./data/total_crimes_district.tsv',sep='\t')
 
-df_data_election = px.data.election()
-geojson = px.data.election_geojson()
-candidates = df_data_election.winner.unique()
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -60,6 +59,17 @@ fig.update_layout(
     font_color=colors['text']
 )
 
+fig_plot = px.choropleth(
+    df_total_crimes_district,
+    locations="Distrito",
+    geojson=continental_states_plot,
+    featureidkey="properties.district",
+    color='crimes',
+    projection="mercator",
+    hover_name="Distrito")
+fig_plot.update_geos(fitbounds = "locations", visible = False)
+fig_plot.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(
         children='Feminicídio à Vista',
@@ -84,17 +94,12 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         data=df_table_temp.to_dict('records'),
     ),
     html.Div([
-        html.P("Candidate:"),
-        dcc.RadioItems(
-            id='candidate',
-            options=[{'value': x, 'label': x}
-                     for x in candidates],
-            value=candidates[0],
-            labelStyle={'display': 'inline-block'}
+        html.P("Por distrito:"),
+        dcc.Graph(
+            id='choropleth',
+            figure=fig_plot,
         ),
-        dcc.Graph(id="choropleth"),
     ])
-
 ])
 
 
@@ -105,19 +110,15 @@ def update_output(*args):
     return df_table.loc[df_table['dateyear'].values == year].to_dict('records')
 
 
-@app.callback(
-    Output("choropleth", "figure"),
-    [Input("candidate", "value")])
-def display_choropleth(candidate):
-    fig = px.choropleth(
-        df_data_election, geojson=geojson, color=candidate,
-        locations="district", featureidkey="properties.district",
-        projection="mercator", range_color=[0, 6500])
-    fig.update_geos(fitbounds="locations", visible=False)
-    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-
-    return fig
-
-
 if __name__ == '__main__':
     app.run_server()
+    app.run_server()
+
+# map connecting to the table
+# map with the cursor
+# divide dashboard into pages
+# design
+# anotar mais algumas variaveis
+# organize the code
+# rebuild pipeline
+# documentation
