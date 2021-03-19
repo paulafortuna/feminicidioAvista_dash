@@ -13,6 +13,14 @@ import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
 import json
+from shapely.geometry import Point, Polygon
+import geopandas as gpd
+
+# import geo data
+
+df_data_election = px.data.election()
+geojson = px.data.election_geojson()
+candidates = df_data_election.winner.unique()
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -25,17 +33,17 @@ colors = {
 }
 
 
-def generate_table(dataframe, max_rows=10):
-    return html.Table([
-        html.Thead(
-            html.Tr([html.Th(col) for col in dataframe.columns])
-        ),
-        html.Tbody([
-            html.Tr([
-                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
-            ]) for i in range(min(len(dataframe), max_rows))
-        ]),
-    ])
+#def generate_table(dataframe, max_rows=10):
+#    return html.Table([
+#        html.Thead(
+#            html.Tr([html.Th(col) for col in dataframe.columns])
+#        ),
+#        html.Tbody([
+#            html.Tr([
+#                html.Td(dataframe.iloc[i][col]) for col in dataframe.columns
+#            ]) for i in range(min(len(dataframe), max_rows))
+#        ]),
+#    ])
 
 # assume you have a "long-form" data frame
 # see https://plotly.com/python/px-arguments/ for more options
@@ -74,7 +82,18 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         id='table_output',
         columns=[{"name": i, "id": i} for i in df_table.columns],
         data=df_table_temp.to_dict('records'),
-    )
+    ),
+    html.Div([
+        html.P("Candidate:"),
+        dcc.RadioItems(
+            id='candidate',
+            options=[{'value': x, 'label': x}
+                     for x in candidates],
+            value=candidates[0],
+            labelStyle={'display': 'inline-block'}
+        ),
+        dcc.Graph(id="choropleth"),
+    ])
 
 ])
 
@@ -84,6 +103,20 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 def update_output(*args):
     year = args[0]['points'][0]['x']
     return df_table.loc[df_table['dateyear'].values == year].to_dict('records')
+
+
+@app.callback(
+    Output("choropleth", "figure"),
+    [Input("candidate", "value")])
+def display_choropleth(candidate):
+    fig = px.choropleth(
+        df_data_election, geojson=geojson, color=candidate,
+        locations="district", featureidkey="properties.district",
+        projection="mercator", range_color=[0, 6500])
+    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+
+    return fig
 
 
 if __name__ == '__main__':
