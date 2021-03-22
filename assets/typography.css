@@ -1,0 +1,18 @@
+
+@font-face {
+font-family: "IBM-Sans";
+src: url("fonts/IBMPlexSans-Medium.ttf") format("truetype");
+}
+@font-face {
+font-family: "remaining";
+src: url("fonts/remaining.ttf") format("truetype");
+}
+h1{
+  font-family: "IBM-Sans", sans-serif;
+  color: #e2005a;
+  textAlign: center;
+}
+*:not(h1){
+  font-family: "remaining", serif;
+  textAlign: center
+}

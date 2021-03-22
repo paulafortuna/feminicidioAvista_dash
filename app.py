@@ -28,11 +28,6 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-colors = {
-    'background': '#19181A',
-    'text': '#B19F9E'
-}
-
 
 df_crimes_year = pd.read_csv('./data/crimes_per_year.tsv',sep='\t')
 df_table = pd.read_csv('./data/table_crimes.tsv',sep='\t')
@@ -46,11 +41,11 @@ df_table_temp = df_table.loc[df_table['dateyear'].values == min_year]
 
 fig = px.bar(df_crimes_year, x="year", y="0")
 
-fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text']
-)
+#fig.update_layout(
+#    plot_bgcolor=colors['background'],
+#    paper_bgcolor=colors['background'],
+#    font_color=colors['text']
+#)
 
 ###############################
 # Cloropleth plot
@@ -112,21 +107,23 @@ for k in range(0,df_crimes_continental_sorted.shape[0]):
 # Layout
 ###############################
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+app.layout = html.Div(children=[
     html.H1(
-        children='Feminicídio à Vista',
+        id='pagename',
+        children='FEMINICÍDIO À VISTA',
         style={
-            'textAlign': 'center',
-            'color': colors['text']
+            'textAlign': 'center'
         }
     ),
-    html.Div(children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ', style={
-        'textAlign': 'center',
-        'color': colors['text']
-    }),
+    html.Div(children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ',
+             style={
+                 'textAlign': 'center',
+                 'width': '500'
+                }
+             ),
     dcc.Graph(
         id='graph',
-        figure=fig
+        figure=fig,
     ),
     html.Pre(id='output'),
     html.H6("Clica numa barra para ver as notícias desse ano."),
@@ -176,7 +173,6 @@ if __name__ == '__main__':
     app.run_server()
 
 
-# map with the cursor
 # divide dashboard into pages
 # design
 # anotar mais algumas variaveis
