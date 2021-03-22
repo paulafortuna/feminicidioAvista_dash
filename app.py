@@ -95,10 +95,12 @@ fig_anim = px.scatter_geo(df_crimes_continental_sorted,
                      projection="mercator",
                      hover_name="news_site_title",
                      animation_frame="arquivo_date",
-                     title="Hello"
+                     title="Hello",
+                     color_discrete_sequence=[colors['title']],
                     )
+
 fig_anim.update_geos(center=dict(lat=39.68, lon=-8.03),scope="europe",
-    visible=True, resolution=50,showocean=True,oceancolor="#3399FF",showrivers=True,
+    visible=True, resolution=50,showocean=True,oceancolor=colors['background'],showrivers=True,
     projection_scale=15, #this is kind of like zoom
     )
 
@@ -106,11 +108,16 @@ sliders = [dict(
     currentvalue={"prefix": "Data: "}
 )]
 
-fig_anim.update_layout(height=500,
-                  width=750,
-                  sliders=sliders,
-                  title=df_crimes_continental_sorted['news_site_title'].iloc[0],
-                  margin={"r":0,"t":30,"l":0,"b":0})
+fig_anim.update_traces(marker=dict(color=colors['title']))
+fig_anim.update_layout(sliders=sliders,
+                        title=df_crimes_continental_sorted['news_site_title'].iloc[0],
+                        margin={"r":0,"t":30,"l":0,"b":0},
+                        plot_bgcolor=colors['background'],
+                        paper_bgcolor=colors['background'],
+                        font_color=colors['text'],
+                        dragmode=False,
+                        geo=dict(bgcolor=colors['background']),
+                       )
 
 fig_anim.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1500
 
@@ -195,13 +202,44 @@ app.layout = html.Div(children=[
             ),
         ],
     ),
-    html.Div([
-        html.P("Por distrito:"),
-        dcc.Graph(
-            id='animation',
-            figure=fig_anim,
-        ),
-    ]),
+
+
+    html.Div(
+        id='animation_plot',
+        children=[
+            html.H3("NEM UMA A MENOS!"),
+            html.P(
+                id='animation_description',
+                children='Nesta animacao coisas acontecem.',
+            ),
+            dcc.Graph(
+                id='animation',
+                figure=fig_anim,
+            ),
+        ],
+    ),
+
+    html.Div(
+        id='manifesto',
+        children=[
+            html.H3("MANIFESTO"),
+            html.P(
+                id='manifesto_description',
+                children='Neste manifesto.',
+            )
+        ],
+    ),
+
+    html.Div(
+        id='contacto',
+        children=[
+            html.H3("CONTATO"),
+            html.P(
+                id='contacto_description',
+                children='Contato.',
+            )
+        ],
+    ),
 ])
 
 
