@@ -10,7 +10,7 @@ src: url("fonts/remaining.ttf") format("truetype");
 h1{
   font-family: "IBM-Sans", sans-serif;
   color: #e2005a;
-  textAlign: center;
+  font-size: 475%;
 }
 *:not(h1){
   font-family: "remaining", serif;

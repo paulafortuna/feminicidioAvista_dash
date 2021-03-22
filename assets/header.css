@@ -1,6 +1,16 @@
 body {
   background-color: #b2ffd7;
 }
-#pagename {
+#initial_page {
   height: 100vh;
+  position: relative;
+}
+
+#container {
+    width: 30%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
 }

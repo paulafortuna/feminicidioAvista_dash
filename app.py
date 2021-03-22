@@ -108,19 +108,25 @@ for k in range(0,df_crimes_continental_sorted.shape[0]):
 ###############################
 
 app.layout = html.Div(children=[
-    html.H1(
-        id='pagename',
-        children='FEMINICÍDIO À VISTA',
-        style={
-            'textAlign': 'center'
-        }
+    html.Div(
+        id='container',
+        children=[
+            html.Div(
+                id='initial_page',
+                children=[
+                    html.H1(
+                            id='pagename',
+                            children='FEMINICÍDIO À VISTA',
+                            ),
+                    html.Div(
+                            id='pagedescription',
+                            children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ',
+                    ),
+
+                ],
+            ),
+        ],
     ),
-    html.Div(children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ',
-             style={
-                 'textAlign': 'center',
-                 'width': '500'
-                }
-             ),
     dcc.Graph(
         id='graph',
         figure=fig,
