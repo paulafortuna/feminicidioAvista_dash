@@ -7,12 +7,16 @@ src: url("fonts/IBMPlexSans-Medium.ttf") format("truetype");
 font-family: "remaining";
 src: url("fonts/remaining.ttf") format("truetype");
 }
-h1{
+h1 {
   font-family: "IBM-Sans", sans-serif;
   color: #e2005a;
   font-size: 475%;
 }
-*:not(h1){
+h3 {
+  font-family: "IBM-Sans", sans-serif;
+  color: #e2005a;
+  font-size: 200%;
+}
+*:not(h1):not(h3){
   font-family: "remaining", serif;
-  textAlign: center
 }

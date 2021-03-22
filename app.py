@@ -35,17 +35,32 @@ min_year = min(df_crimes_year['year'])
 df_table_temp = df_table.loc[df_table['dateyear'].values == min_year]
 
 ###############################
+# Color variables
+##############################
+
+colors = {
+    'background': '#b2ffd7',
+    'text': '#22262b',
+    'plot_bar': '#22262b',
+    'title': '#e2005a'
+}
+
+###############################
 # Bar plot
 ###############################
 
 
 fig = px.bar(df_crimes_year, x="year", y="0")
 
-#fig.update_layout(
-#    plot_bgcolor=colors['background'],
-#    paper_bgcolor=colors['background'],
-#    font_color=colors['text']
-#)
+fig.update_layout(
+    plot_bgcolor=colors['background'],
+    paper_bgcolor=colors['background'],
+    font_color=colors['text'],
+)
+
+fig.update_traces(marker_color=colors['plot_bar'])
+fig.update_yaxes(showgrid=False,title='Total de Notícias')
+fig.update_xaxes(title='Ano')
 
 ###############################
 # Cloropleth plot
@@ -109,35 +124,49 @@ for k in range(0,df_crimes_continental_sorted.shape[0]):
 
 app.layout = html.Div(children=[
     html.Div(
-        id='container',
+        id='initial_page',
         children=[
             html.Div(
-                id='initial_page',
+                id='container',
                 children=[
                     html.H1(
                             id='pagename',
                             children='FEMINICÍDIO À VISTA',
                             ),
-                    html.Div(
-                            id='pagedescription',
+                    html.P(
                             children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ',
                     ),
-
                 ],
+            ),
+            html.Div(
+                    id='continue',
+                    children='Continuar a explorar',
             ),
         ],
     ),
-    dcc.Graph(
-        id='graph',
-        figure=fig,
+    html.Div(
+        id='frequencies_plot',
+        children=[
+            html.H3("NOTÍCIAS NO TEMPO"),
+            html.P(
+                id='time_description',
+                children='O número de notícias referentes a casos de feminicídio parece estar a aumentar ao longo do tempo. Isto pode indicar um aumento de feminicídios, um maior interesse jornalístico no tema, ou também uma maior facilidade em aceder a notícias mais recentes.',
+            ),
+            dcc.Graph(
+                id='graph',
+                figure=fig,
+            ),
+            html.P("Clica numa barra do gráfico para ver as notícias desse ano na tabela"),
+            dash_table.DataTable(
+                id='table_year_output',
+                columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
+                data=df_table_temp.to_dict('records'),
+                style_cell={'textAlign': 'left','backgroundColor': colors['background']},
+                style_header={'backgroundColor': colors['background'],'fontWeight': 'bold'},
+            ),
+        ],
     ),
-    html.Pre(id='output'),
-    html.H6("Clica numa barra para ver as notícias desse ano."),
-    dash_table.DataTable(
-        id='table_year_output',
-        columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
-        data=df_table_temp.to_dict('records'),
-    ),
+
     html.Div([
         html.P("Por distrito:"),
         dcc.Graph(
