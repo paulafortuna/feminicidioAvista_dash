@@ -73,9 +73,16 @@ fig_plot = px.choropleth(
     featureidkey="properties.district",
     color='crimes',
     projection="mercator",
-    hover_name="Distrito")
+    hover_name="Distrito",
+    color_continuous_scale=[colors['background'],colors['title']],)
 fig_plot.update_geos(fitbounds = "locations", visible = False)
-fig_plot.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+fig_plot.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
+                       plot_bgcolor=colors['background'],
+                       paper_bgcolor=colors['background'],
+                       font_color=colors['text'],
+                       dragmode=False,
+                       geo=dict(bgcolor=colors['background'])
+                       )
 
 
 ###############################
@@ -156,7 +163,7 @@ app.layout = html.Div(children=[
                 id='graph',
                 figure=fig,
             ),
-            html.P("Clica numa barra do gráfico para ver as notícias desse ano na tabela"),
+            html.P("Clique numa barra do gráfico para ver as notícias desse ano na tabela"),
             dash_table.DataTable(
                 id='table_year_output',
                 columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
@@ -166,18 +173,27 @@ app.layout = html.Div(children=[
             ),
         ],
     ),
-
-    html.Div([
-        html.P("Por distrito:"),
-        dcc.Graph(
-            id='choropleth',
-            figure=fig_plot,
-        ),
-    ]),
-    dash_table.DataTable(
-        id='table_region_output',
-        columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
-        data=df_crimes_continental_table_temp.to_dict('records'),
+    html.Div(
+        id='regions_plot',
+        children=[
+            html.H3("NOTÍCIAS POR DISTRITOS"),
+            html.P(
+                id='regions_description',
+                children='Mais feminicídios tèm ocorrido nas regiões mais populosas do país. Contudo, a relação entre crime e número de habitantes não é linear. ...',
+            ),
+            dcc.Graph(
+                id='choropleth',
+                figure=fig_plot,
+            ),
+            html.P("Clique num distrito no mapa para ver as notícias na tabela"),
+            dash_table.DataTable(
+                id='table_region_output',
+                columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
+                data=df_crimes_continental_table_temp.to_dict('records'),
+                style_cell={'textAlign': 'left','backgroundColor': colors['background']},
+                style_header={'backgroundColor': colors['background'],'fontWeight': 'bold'},
+            ),
+        ],
     ),
     html.Div([
         html.P("Por distrito:"),

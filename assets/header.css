@@ -1,11 +1,7 @@
 body {
   background-color: #b2ffd7;
 }
-#initial_page {
-  height: 100vh;
-}
-
-#frequencies_plot {
+#initial_page, #frequencies_plot, #regions_plot {
   height: 100vh;
 }
 
@@ -34,17 +30,20 @@ h3 {
     margin-left: auto;
     margin-right: auto;
 }
-
 #graph {
     height: 30%;
 }
-
-#table_year_output {
+#table_year_output, #table_region_output {
     text-align: left;
     height: 50%;
     overflow: auto;
     margin: auto;
     top: 0; left: 0; bottom: 0; right: 0;
+}
+#regions_plot {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
