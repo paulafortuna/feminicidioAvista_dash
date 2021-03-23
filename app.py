@@ -5,6 +5,9 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
+# TODO select news only from portugal continental
+# TODO estatísticas normalizar por populacao
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -41,8 +44,13 @@ df_table_temp = df_table.loc[df_table['dateyear'].values == min_year]
 colors = {
     'background': '#b2ffd7',
     'text': '#22262b',
-    'plot_bar': '#22262b',
-    'title': '#e2005a'
+    'plot_bar': '#41474b',
+    'title': '#e2005a',
+    'table_background': '#41474b',
+    'table_background_header': '#41474b',
+    'table_font_color_header': '#f2eef4',
+    'map_max_gradient_color': '#e2005a',
+    'map_min_gradient_color': '#FFFFFF',
 }
 
 ###############################
@@ -74,7 +82,7 @@ fig_plot = px.choropleth(
     color='crimes',
     projection="mercator",
     hover_name="Distrito",
-    color_continuous_scale=[colors['background'],colors['title']],)
+    color_continuous_scale=[colors['map_min_gradient_color'],colors['map_max_gradient_color']],)
 fig_plot.update_geos(fitbounds = "locations", visible = False)
 fig_plot.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
                        plot_bgcolor=colors['background'],
@@ -100,8 +108,8 @@ fig_anim = px.scatter_geo(df_crimes_continental_sorted,
                     )
 
 fig_anim.update_geos(center=dict(lat=39.68, lon=-8.03),scope="europe",
-    visible=True, resolution=50,showocean=True,oceancolor=colors['background'],showrivers=True,
-    projection_scale=15, #this is kind of like zoom
+    visible=True, resolution=50,showocean=True,oceancolor=colors['background'],landcolor=colors['plot_bar'],
+    showcountries =True,countrycolor=colors['background'],projection_scale=15, #this is kind of like zoom
     )
 
 sliders = [dict(
@@ -117,6 +125,7 @@ fig_anim.update_layout(sliders=sliders,
                         font_color=colors['text'],
                         dragmode=False,
                         geo=dict(bgcolor=colors['background']),
+                       title_x=0.5,
                        )
 
 fig_anim.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1500
@@ -148,13 +157,15 @@ app.layout = html.Div(children=[
                             children='FEMINICÍDIO À VISTA',
                             ),
                     html.P(
+                            id='pagedescription',
                             children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ',
                     ),
+
                 ],
             ),
             html.Div(
                     id='continue',
-                    children='Continuar a explorar',
+                    children='Continuar a explorar abaixo',
             ),
         ],
     ),
@@ -170,13 +181,22 @@ app.layout = html.Div(children=[
                 id='graph',
                 figure=fig,
             ),
-            html.P("Clique numa barra do gráfico para ver as notícias desse ano na tabela"),
+            html.Div(
+                id='instruction_freq_plot_container',
+                children=[
+                    html.P(
+                        id="instruction_freq_plot",
+                        children="Clique numa barra do gráfico para ver as notícias desse ano na tabela",
+                    ),
+                ],
+            ),
+            html.Div(id='instruction_freq_plot_container_fill'),
             dash_table.DataTable(
                 id='table_year_output',
                 columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
                 data=df_table_temp.to_dict('records'),
-                style_cell={'textAlign': 'left','backgroundColor': colors['background']},
-                style_header={'backgroundColor': colors['background'],'fontWeight': 'bold'},
+                style_cell={'textAlign': 'left','backgroundColor': colors['table_background'],'color': colors['table_font_color_header']},
+                style_header={'backgroundColor': colors['table_background_header'],'fontWeight': 'bold','color': colors['table_font_color_header']},
             ),
         ],
     ),
@@ -192,29 +212,44 @@ app.layout = html.Div(children=[
                 id='choropleth',
                 figure=fig_plot,
             ),
-            html.P("Clique num distrito no mapa para ver as notícias na tabela"),
+            html.Div(id='pre_instruction_map_container_fill'),
+            html.Div(
+                id='instruction_map_container',
+                children=[
+                    html.P(
+                        id="instruction_map",
+                        children="Clique num distrito no mapa para ver as notícias na tabela",
+                    ),
+                ],
+            ),
+            html.Div(id='instruction_map_container_fill'),
             dash_table.DataTable(
                 id='table_region_output',
                 columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
                 data=df_crimes_continental_table_temp.to_dict('records'),
-                style_cell={'textAlign': 'left','backgroundColor': colors['background']},
-                style_header={'backgroundColor': colors['background'],'fontWeight': 'bold'},
+                style_cell={'textAlign': 'left', 'backgroundColor': colors['table_background'],
+                            'color': colors['table_font_color_header']},
+                style_header={'backgroundColor': colors['table_background_header'], 'fontWeight': 'bold',
+                              'color': colors['table_font_color_header']},
             ),
         ],
     ),
-
-
     html.Div(
         id='animation_plot',
         children=[
             html.H3("NEM UMA A MENOS!"),
             html.P(
                 id='animation_description',
-                children='Nesta animacao coisas acontecem.',
+                children='Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.',
             ),
-            dcc.Graph(
-                id='animation',
-                figure=fig_anim,
+            html.Div(id='animation_description_container_fill'),
+            html.Div(id='animation_container',
+                     children=[
+                        dcc.Graph(
+                            id='animation',
+                            figure=fig_anim,
+                        ),
+                     ],
             ),
         ],
     ),
