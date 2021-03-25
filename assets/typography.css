@@ -5,7 +5,7 @@ src: url("fonts/IBMPlexSans-Medium.ttf") format("truetype");
 }
 @font-face {
 font-family: "remaining";
-src: url("fonts/remaining.ttf") format("truetype");
+src: url("fonts/Lato-Regular.ttf") format("truetype");
 }
 h1 {
   font-family: "IBM-Sans", sans-serif;

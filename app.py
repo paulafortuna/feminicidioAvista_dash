@@ -171,35 +171,40 @@ app.layout = html.Div(children=[
         ],
     ),
     html.Div(
-        id='frequencies_plot',
+        id='frequencies_plot_section_container',
         children=[
-            html.H3("NOTÍCIAS NO TEMPO"),
-            html.P(
-                id='time_description',
-                children='O número de notícias referentes a casos de feminicídio parece estar a aumentar ao longo do tempo. Isto pode indicar um aumento de feminicídios, um maior interesse jornalístico no tema, ou também uma maior facilidade em aceder a notícias mais recentes.',
-            ),
-            dcc.Graph(
-                id='graph',
-                figure=fig,
-            ),
-            html.Div(
-                id='instruction_freq_plot_container',
-                children=[
-                    html.P(
-                        id="instruction_freq_plot",
-                        children="Clique numa barra do gráfico para ver as notícias desse ano na tabela",
+                    html.Div(
+                        id='frequencies_plot',
+                        children=[
+                            html.H3("NOTÍCIAS NO TEMPO"),
+                            html.P(
+                                id='time_description',
+                                children='O número de notícias referentes a casos de feminicídio parece estar a aumentar ao longo do tempo. Isto pode indicar um aumento de feminicídios, um maior interesse jornalístico no tema, ou também uma maior facilidade em aceder a notícias mais recentes.',
+                            ),
+                            dcc.Graph(
+                                id='graph',
+                                figure=fig,
+                            ),
+                            html.Div(
+                                id='instruction_freq_plot_container',
+                                children=[
+                                    html.P(
+                                        id="instruction_freq_plot",
+                                        children="Clique numa barra do gráfico para ver as notícias desse ano na tabela",
+                                    ),
+                                ],
+                            ),
+                            html.Div(id='instruction_freq_plot_container_fill'),
+                            dash_table.DataTable(
+                                id='table_year_output',
+                                columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
+                                data=df_table_temp.to_dict('records'),
+                                style_cell={'textAlign': 'left','backgroundColor': colors['table_background'],'color': colors['table_font_color_header']},
+                                style_header={'backgroundColor': colors['table_background_header'],'fontWeight': 'bold','color': colors['table_font_color_header']},
+                            ),
+                        ],
                     ),
                 ],
-            ),
-            html.Div(id='instruction_freq_plot_container_fill'),
-            dash_table.DataTable(
-                id='table_year_output',
-                columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
-                data=df_table_temp.to_dict('records'),
-                style_cell={'textAlign': 'left','backgroundColor': colors['table_background'],'color': colors['table_font_color_header']},
-                style_header={'backgroundColor': colors['table_background_header'],'fontWeight': 'bold','color': colors['table_font_color_header']},
-            ),
-        ],
     ),
     html.Div(
         id='regions_plot',
@@ -236,22 +241,27 @@ app.layout = html.Div(children=[
         ],
     ),
     html.Div(
-        id='animation_plot',
+        id='animation_plot_section_container',
         children=[
-            html.H3("NEM UMA A MENOS!"),
-            html.P(
-                id='animation_description',
-                children='Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.',
-            ),
-            html.Div(id='animation_description_container_fill'),
-            html.Div(id='animation_container',
-                     children=[
-                        dcc.Graph(
-                            id='animation',
-                            figure=fig_anim,
+                html.Div(
+                    id='animation_plot',
+                    children=[
+                        html.H3("NEM UMA A MENOS!"),
+                        html.P(
+                            id='animation_description',
+                            children='Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.',
                         ),
-                     ],
-            ),
+                        html.Div(id='animation_description_container_fill'),
+                        html.Div(id='animation_container',
+                                 children=[
+                                    dcc.Graph(
+                                        id='animation',
+                                        figure=fig_anim,
+                                    ),
+                                 ],
+                        ),
+                    ],
+                ),
         ],
     ),
 
