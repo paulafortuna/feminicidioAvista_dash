@@ -31,9 +31,11 @@ server = app.server
 # Load data
 #################################
 
+
 # Load news per year
 with open('./data_to_visualize/dict_tables_news_per_year.json') as json_file:
     dict_tables_per_year = json.load(json_file)
+
 
 min_year = min([int(i) for i in dict_tables_per_year.keys()])
 df_table_temp = dict_tables_per_year[str(min_year)]
@@ -55,8 +57,12 @@ df_crimes_continental_table_temp = dict_tables_per_district["LISBOA"]
 # Bar plot
 fig = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_year.json')
 
+
 # Cloropleth plot
+
 fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json')
+
+
 
 # Animation plot
 fig_anim = plotly.io.read_json('./data_to_visualize/plot_animation.json')
@@ -186,7 +192,6 @@ app.layout = html.Div(children=[
                 ),
         ],
     ),
-
     html.Div(
         id='manifesto',
         children=[
@@ -197,7 +202,6 @@ app.layout = html.Div(children=[
             )
         ],
     ),
-
     html.Div(
         id='contacto',
         children=[
@@ -208,6 +212,7 @@ app.layout = html.Div(children=[
             )
         ],
     ),
+
 ])
 
 
@@ -217,12 +222,13 @@ def update_output(*args):
     year = args[0]['points'][0]['x']
     return dict_tables_per_year[str(year)]
 
-
+"""
 @app.callback(Output('table_region_output', 'data'), [
     Input('choropleth', 'clickData')])
 def update_output(*args):
     district = args[0]['points'][0]['location']
     return dict_tables_per_district[district]
+"""
 
 
 if __name__ == '__main__':
@@ -230,7 +236,6 @@ if __name__ == '__main__':
     app.run_server()
 
 
-# design# divide dashboard into pages
 # anotar mais algumas variaveis
 # organize the code
 # rebuild pipeline
