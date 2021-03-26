@@ -17,7 +17,6 @@ from dash.dependencies import Input, Output
 from utils import colors
 from utils import font_for_plots
 import json
-import dash_bootstrap_components as dbc
 
 #################################
 # Dash variables
