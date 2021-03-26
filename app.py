@@ -5,9 +5,8 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
-# TODO select news only from portugal continental
-# TODO estatísticas normalizar por populacao
 
+import plotly
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -15,131 +14,53 @@ import dash_table
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
-
-# import geo data
+from utils import colors
+from utils import font_for_plots
 import json
-with open('./data/temp_json.json') as json_file:
-    continental_states_plot = json.load(json_file)
-df_total_crimes_district = pd.read_csv('./data/total_crimes_district.tsv',sep='\t')
-df_crimes_continental_table = pd.read_csv('./data/df_crimes_continental_save.tsv',sep='\t')
-df_crimes_continental_table_temp = df_crimes_continental_table.loc[df_crimes_continental_table['district'].values == 'LISBOA']
 
-df_crimes_continental_sorted = pd.read_csv('./data/crimes_location_continental_ordered.tsv',sep='\t')
+
+#################################
+# Dash variables
+#################################
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = 'Feminicídio à Vista'
 server = app.server
 
+#################################
+# Load data
+#################################
 
-df_crimes_year = pd.read_csv('./data/crimes_per_year.tsv',sep='\t')
-df_table = pd.read_csv('./data/table_crimes.tsv',sep='\t')
-min_year = min(df_crimes_year['year'])
-df_table_temp = df_table.loc[df_table['dateyear'].values == min_year]
+# Load news per year
+with open('./data_to_visualize/dict_tables_news_per_year.json') as json_file:
+    dict_tables_per_year = json.load(json_file)
 
-###############################
-# Color variables
-##############################
+min_year = min([int(i) for i in dict_tables_per_year.keys()])
+df_table_temp = dict_tables_per_year[str(min_year)]
 
-colors = {
-    'background': '#b2ffd7',
-    'text': '#22262b',
-    'plot_bar': '#41474b',
-    'title': '#e2005a',
-    'table_background': '#41474b',
-    'table_background_header': '#41474b',
-    'table_font_color_header': '#f2eef4',
-    'map_max_gradient_color': '#e2005a',
-    'map_min_gradient_color': '#FFFFFF',
-}
+# Load news per location
+with open('./data_to_visualize/dict_tables_news_per_district.json') as json_file:
+    dict_tables_per_district = json.load(json_file)
 
-###############################
+df_crimes_continental_table_temp = dict_tables_per_district["LISBOA"]
+
+##### for dot plot
+#df_crimes_continental_sorted = pd.read_csv('./data/crimes_location_continental_ordered.tsv',sep='\t')
+
+
+#################################
+# Load plots
+#################################
+
 # Bar plot
-###############################
+fig = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_year.json')
 
-
-fig = px.bar(df_crimes_year, x="year", y="0")
-
-fig.update_layout(
-    plot_bgcolor=colors['background'],
-    paper_bgcolor=colors['background'],
-    font_color=colors['text'],
-)
-
-fig.update_traces(marker_color=colors['plot_bar'])
-fig.update_yaxes(showgrid=False,title='Total de Notícias')
-fig.update_xaxes(title='Ano')
-
-###############################
 # Cloropleth plot
-###############################
+fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json')
 
-fig_plot = px.choropleth(
-    df_total_crimes_district,
-    locations="Distrito",
-    geojson=continental_states_plot,
-    featureidkey="properties.district",
-    color='crimes',
-    projection="mercator",
-    hover_name="Distrito",
-    color_continuous_scale=[colors['map_min_gradient_color'],colors['map_max_gradient_color']],)
-fig_plot.update_geos(fitbounds = "locations", visible = False)
-fig_plot.update_layout(margin={"r":0,"t":0,"l":0,"b":0},
-                       plot_bgcolor=colors['background'],
-                       paper_bgcolor=colors['background'],
-                       font_color=colors['text'],
-                       dragmode=False,
-                       geo=dict(bgcolor=colors['background'])
-                       )
-
-
-###############################
 # Animation plot
-###############################
-
-fig_anim = px.scatter_geo(df_crimes_continental_sorted,
-                     lat="lat",
-                     lon="lon",
-                     projection="mercator",
-                     hover_name="news_site_title",
-                     animation_frame="arquivo_date",
-                     title="Hello",
-                     color_discrete_sequence=[colors['title']],
-                    )
-
-fig_anim.update_geos(center=dict(lat=39.68, lon=-8.03),scope="europe",
-    visible=True, resolution=50,showocean=True,oceancolor=colors['background'],landcolor=colors['plot_bar'],
-    showcountries =True,countrycolor=colors['background'],projection_scale=15, #this is kind of like zoom
-    )
-
-sliders = [dict(
-    currentvalue={"prefix": "Data: "}
-)]
-
-fig_anim.update_traces(marker=dict(color=colors['title']))
-fig_anim.update_layout(sliders=sliders,
-                        title=df_crimes_continental_sorted['news_site_title'].iloc[0],
-                        margin={"r":0,"t":30,"l":0,"b":0},
-                        plot_bgcolor=colors['background'],
-                        paper_bgcolor=colors['background'],
-                        font_color=colors['text'],
-                        dragmode=False,
-                        geo=dict(bgcolor=colors['background']),
-                       title_x=0.5,
-                       )
-
-fig_anim.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1500
-
-
-for button in fig_anim.layout.updatemenus[0].buttons:
-    button['args'][1]['frame']['redraw'] = True
-
-for k in range(0,df_crimes_continental_sorted.shape[0]):
-    fig_anim.frames[k]['layout'].update(title_text=df_crimes_continental_sorted['news_site_title'].iloc[k])
-
-
-
+fig_anim = plotly.io.read_json('./data_to_visualize/plot_animation.json')
 
 
 ###############################
@@ -197,8 +118,9 @@ app.layout = html.Div(children=[
                             html.Div(id='instruction_freq_plot_container_fill'),
                             dash_table.DataTable(
                                 id='table_year_output',
-                                columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
-                                data=df_table_temp.to_dict('records'),
+                                columns=[{"name": i, "id": i} for i in ['Notícia','Distrito']],
+                                data=df_table_temp,
+                                editable=False,
                                 style_cell={'textAlign': 'left','backgroundColor': colors['table_background'],'color': colors['table_font_color_header']},
                                 style_header={'backgroundColor': colors['table_background_header'],'fontWeight': 'bold','color': colors['table_font_color_header']},
                             ),
@@ -231,8 +153,9 @@ app.layout = html.Div(children=[
             html.Div(id='instruction_map_container_fill'),
             dash_table.DataTable(
                 id='table_region_output',
-                columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
-                data=df_crimes_continental_table_temp.to_dict('records'),
+                #columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
+                columns=[{"name": i, "id": i} for i in ['Notícia','Ano']],
+                data=df_crimes_continental_table_temp,
                 style_cell={'textAlign': 'left', 'backgroundColor': colors['table_background'],
                             'color': colors['table_font_color_header']},
                 style_header={'backgroundColor': colors['table_background_header'], 'fontWeight': 'bold',
@@ -293,14 +216,14 @@ app.layout = html.Div(children=[
     Input('graph', 'clickData')])
 def update_output(*args):
     year = args[0]['points'][0]['x']
-    return df_table.loc[df_table['dateyear'].values == year].to_dict('records')
+    return dict_tables_per_year[str(year)]
 
 
 @app.callback(Output('table_region_output', 'data'), [
     Input('choropleth', 'clickData')])
 def update_output(*args):
     district = args[0]['points'][0]['location']
-    return df_crimes_continental_table.loc[df_crimes_continental_table['district'] == district].to_dict('records')
+    return dict_tables_per_district[district]
 
 
 if __name__ == '__main__':
@@ -308,8 +231,7 @@ if __name__ == '__main__':
     app.run_server()
 
 
-# divide dashboard into pages
-# design
+# design# divide dashboard into pages
 # anotar mais algumas variaveis
 # organize the code
 # rebuild pipeline

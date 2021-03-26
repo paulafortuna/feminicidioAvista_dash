@@ -16,5 +16,9 @@ h3 {
   color: #e2005a;
 }
 *:not(h1):not(h3){
-  font-family: "remaining", serif;
+  font-family: "remaining", sans-serif;
+}
+
+.Graph {
+  font-family: "Roboto", sans-serif;
 }
