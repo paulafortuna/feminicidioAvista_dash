@@ -17,7 +17,7 @@ from dash.dependencies import Input, Output
 from utils import colors
 from utils import font_for_plots
 import json
-
+import dash_bootstrap_components as dbc
 
 #################################
 # Dash variables
@@ -141,6 +141,12 @@ app.layout = html.Div(children=[
                 id='regions_description',
                 children='Mais feminicídios tèm ocorrido nas regiões mais populosas do país. Contudo, a relação entre crime e número de habitantes não é linear. ...',
             ),
+            dcc.Loading(
+                id="loading-1",
+                type="graph",
+                children=html.Div(id="loading-output-1"),
+                #fullscreen=True
+            ),
             dcc.Graph(
                 id='choropleth',
                 figure=fig_plot,
@@ -158,7 +164,6 @@ app.layout = html.Div(children=[
             html.Div(id='instruction_map_container_fill'),
             dash_table.DataTable(
                 id='table_region_output',
-                #columns=[{"name": i, "id": i} for i in df_crimes_continental_table.columns],
                 columns=[{"name": i, "id": i} for i in ['Notícia','Ano']],
                 data=df_crimes_continental_table_temp,
                 style_cell={'textAlign': 'left', 'backgroundColor': colors['table_background'],
@@ -222,13 +227,12 @@ def update_output(*args):
     year = args[0]['points'][0]['x']
     return dict_tables_per_year[str(year)]
 
-"""
+
 @app.callback(Output('table_region_output', 'data'), [
     Input('choropleth', 'clickData')])
 def update_output(*args):
     district = args[0]['points'][0]['location']
     return dict_tables_per_district[district]
-"""
 
 
 if __name__ == '__main__':
