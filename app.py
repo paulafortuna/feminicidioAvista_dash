@@ -32,7 +32,7 @@ server = app.server
 
 
 # Load news per year
-with open('./data_to_visualize/dict_tables_news_per_year.json') as json_file:
+with open('../feminicidioAvista/classification/data_to_visualize/dict_tables_news_per_year.json') as json_file:
     dict_tables_per_year = json.load(json_file)
 
 
@@ -40,31 +40,25 @@ min_year = min([int(i) for i in dict_tables_per_year.keys()])
 df_table_temp = dict_tables_per_year[str(min_year)]
 
 # Load news per location
-with open('./data_to_visualize/dict_tables_news_per_district.json') as json_file:
+with open('../feminicidioAvista/classification/data_to_visualize/dict_tables_news_per_district.json') as json_file:
     dict_tables_per_district = json.load(json_file)
 
 df_crimes_continental_table_temp = dict_tables_per_district["LISBOA"]
-
-##### for dot plot
-#df_crimes_continental_sorted = pd.read_csv('./data/crimes_location_continental_ordered.tsv',sep='\t')
-
 
 #################################
 # Load plots
 #################################
 
-# Bar plot
-fig = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_year.json')
+# Animation plot
+fig_anim = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_animation.json')
 
+# Bar plot
+fig = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_feminicide_per_year.json')
 
 # Cloropleth plot
+fig_plot = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
+#fig_plot = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
 
-fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json')
-
-
-
-# Animation plot
-fig_anim = plotly.io.read_json('./data_to_visualize/plot_animation.json')
 
 
 ###############################
@@ -93,6 +87,30 @@ app.layout = html.Div(children=[
                     id='continue',
                     children='Continuar a explorar abaixo',
             ),
+        ],
+    ),
+    html.Div(
+        id='animation_plot_section_container',
+        children=[
+                html.Div(
+                    id='animation_plot',
+                    children=[
+                        html.H3("NEM UMA A MENOS!"),
+                        html.P(
+                            id='animation_description',
+                            children='Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.',
+                        ),
+                        html.Div(id='animation_description_container_fill'),
+                        html.Div(id='animation_container',
+                                 children=[
+                                    dcc.Graph(
+                                        id='animation',
+                                        figure=fig_anim,
+                                    ),
+                                 ],
+                        ),
+                    ],
+                ),
         ],
     ),
     html.Div(
@@ -173,30 +191,6 @@ app.layout = html.Div(children=[
         ],
     ),
     html.Div(
-        id='animation_plot_section_container',
-        children=[
-                html.Div(
-                    id='animation_plot',
-                    children=[
-                        html.H3("NEM UMA A MENOS!"),
-                        html.P(
-                            id='animation_description',
-                            children='Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.',
-                        ),
-                        html.Div(id='animation_description_container_fill'),
-                        html.Div(id='animation_container',
-                                 children=[
-                                    dcc.Graph(
-                                        id='animation',
-                                        figure=fig_anim,
-                                    ),
-                                 ],
-                        ),
-                    ],
-                ),
-        ],
-    ),
-    html.Div(
         id='manifesto',
         children=[
             html.H3("MANIFESTO"),
@@ -230,7 +224,8 @@ def update_output(*args):
 @app.callback(Output('table_region_output', 'data'), [
     Input('choropleth', 'clickData')])
 def update_output(*args):
-    district = args[0]['points'][0]['location']
+    #district = args[0]['points'][0]['location'] #instruction to cloropeth
+    district = args[0]['points'][0]['x'] #instruction to barplot
     return dict_tables_per_district[district]
 
 
@@ -238,8 +233,9 @@ if __name__ == '__main__':
     app.run_server()
     app.run_server()
 
+# TODO
+# convert map to plot
+# Change app order
+# add text
 
-# anotar mais algumas variaveis
-# organize the code
-# rebuild pipeline
 # documentation
