@@ -1,5 +1,4 @@
 # feminicidioAvista_dash 
-
 ![icons](https://github.com/paulafortuna/images/blob/main/icons.jpg)
 
 This repository presents the front-end app developed for the "Feminicidio à Vista" project.
