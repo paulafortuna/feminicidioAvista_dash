@@ -7,7 +7,7 @@
 
 }
 
-body, #regions_plot {
+body, #frequencies_plot_section_container {
   background-color: var(--main-color-5);
 }
 
@@ -15,14 +15,18 @@ body, #regions_plot {
   background-color: var(--main-color);
 }
 
-#frequencies_plot_section_container, #animation_plot_section_container {
+#animation_plot_section_container, #regions_plot, #regions_plot_section_container {
   background-color: var(--main-color-4);
 }
 
 
-#initial_page, #frequencies_plot_section_container, #regions_plot, #animation_plot_section_container {
+#initial_page, #frequencies_plot_section_container, #regions_plot_section_container, #animation_plot_section_container {
   height: 100vh;
   width: 100vw;
+}
+
+#regions_plot_section_container {
+  height: 105vh;
 }
 
 #container {

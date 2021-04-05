@@ -151,41 +151,46 @@ app.layout = html.Div(children=[
                 ],
     ),
     html.Div(
-        id='regions_plot',
+        id='regions_plot_section_container',
         children=[
-            html.H3("NOTÍCIAS POR DISTRITOS"),
-            html.P(
-                id='regions_description',
-                children='Mais feminicídios tèm ocorrido nas regiões mais populosas do país. Contudo, a relação entre crime e número de habitantes não é linear. ...',
-            ),
-            dcc.Loading(
-                id="loading-1",
-                type="graph",
-                children=html.Div(id="loading-output-1"),
-            ),
-            dcc.Graph(
-                id='choropleth',
-                figure=fig_plot,
-            ),
-            html.Div(id='pre_instruction_map_container_fill'),
             html.Div(
-                id='instruction_map_container',
+                id='regions_plot',
                 children=[
+                    html.H3("NOTÍCIAS POR DISTRITOS"),
                     html.P(
-                        id="instruction_map",
-                        children="Clique num distrito no mapa para ver as notícias na tabela",
+                        id='regions_description',
+                        children='Mais feminicídios tèm ocorrido nas regiões mais populosas do país. Contudo, a relação entre crime e número de habitantes não é linear. ...',
+                    ),
+                    dcc.Loading(
+                        id="loading-1",
+                        type="graph",
+                        children=html.Div(id="loading-output-1"),
+                    ),
+                    dcc.Graph(
+                        id='choropleth',
+                        figure=fig_plot,
+                    ),
+                    html.Div(id='pre_instruction_map_container_fill'),
+                    html.Div(
+                        id='instruction_map_container',
+                        children=[
+                            html.P(
+                                id="instruction_map",
+                                children="Clique num distrito no mapa para ver as notícias na tabela",
+                            ),
+                        ],
+                    ),
+                    html.Div(id='instruction_map_container_fill'),
+                    dash_table.DataTable(
+                        id='table_region_output',
+                        columns=[{"name": i, "id": i} for i in ['Notícia','Ano']],
+                        data=df_crimes_continental_table_temp,
+                        style_cell={'textAlign': 'left', 'backgroundColor': colors['table_background'],
+                                    'color': colors['table_font_color_header']},
+                        style_header={'backgroundColor': colors['table_background_header'], 'fontWeight': 'bold',
+                                      'color': colors['table_font_color_header']},
                     ),
                 ],
-            ),
-            html.Div(id='instruction_map_container_fill'),
-            dash_table.DataTable(
-                id='table_region_output',
-                columns=[{"name": i, "id": i} for i in ['Notícia','Ano']],
-                data=df_crimes_continental_table_temp,
-                style_cell={'textAlign': 'left', 'backgroundColor': colors['table_background'],
-                            'color': colors['table_font_color_header']},
-                style_header={'backgroundColor': colors['table_background_header'], 'fontWeight': 'bold',
-                              'color': colors['table_font_color_header']},
             ),
         ],
     ),
