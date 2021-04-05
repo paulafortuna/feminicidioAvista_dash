@@ -40,7 +40,7 @@ min_year = min([int(i) for i in dict_tables_per_year.keys()])
 df_table_temp = dict_tables_per_year[str(min_year)]
 
 # Load news per location
-with open('../feminicidioAvista/classification/data_to_visualize/dict_tables_news_per_district.json') as json_file:
+with open('./data_to_visualize/dict_tables_news_per_district.json') as json_file:
     dict_tables_per_district = json.load(json_file)
 
 df_crimes_continental_table_temp = dict_tables_per_district["LISBOA"]
@@ -50,14 +50,14 @@ df_crimes_continental_table_temp = dict_tables_per_district["LISBOA"]
 #################################
 
 # Animation plot
-fig_anim = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_animation.json')
+fig_anim = plotly.io.read_json('./data_to_visualize/plot_animation.json')
 
 # Bar plot
-fig = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_feminicide_per_year.json')
+fig = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_year.json')
 
 # Cloropleth plot
-fig_plot = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
-#fig_plot = plotly.io.read_json('../feminicidioAvista/classification/data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
+fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
+#fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
 
 
 
