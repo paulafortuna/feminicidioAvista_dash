@@ -5,6 +5,8 @@ This Github Repository it is continously deployed in Heroku and you can find the
 
 In terms of technologies it uses Dash which is a framework for deploying simple dashboards on top of Flask, Plotly and Python. This repository follows a typical dash architechture:
 
+
+```bash
 - app.py
 - runtime.txt
 - requirements.txt
@@ -14,6 +16,7 @@ In terms of technologies it uses Dash which is a framework for deploying simple 
     |-- header.css
 - data_to_visualize
     |-- ... 
+```
  
  These files contain:
  - The app.py file contains the main code to run the app.
