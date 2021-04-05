@@ -1,5 +1,5 @@
 # feminicidioAvista_dash
-![](https://imgur.com/a/YcV1Kfh)
+![python](https://imgur.com/a/YcV1Kfh)
 
 This repository presents the front-end app developed for the "Feminicidio à Vista" project.
 This Github Repository it is continously deployed in Heroku and you can find the running app [here]( https://feminicidioavista.herokuapp.com/).
