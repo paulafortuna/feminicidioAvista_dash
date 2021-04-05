@@ -78,11 +78,11 @@ app.layout = html.Div(children=[
                             ),
                     html.P(
                             id='pagedescription',
-                            children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal. ',
+                            children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal.',
                     ),
 
                 ],
-            ),
+            ),# Change app order
             html.Div(
                     id='continue',
                     children='Continuar a explorar abaixo',
@@ -162,7 +162,6 @@ app.layout = html.Div(children=[
                 id="loading-1",
                 type="graph",
                 children=html.Div(id="loading-output-1"),
-                #fullscreen=True
             ),
             dcc.Graph(
                 id='choropleth',
@@ -234,8 +233,6 @@ if __name__ == '__main__':
     app.run_server()
 
 # TODO
-# convert map to plot
-# Change app order
+# change classification to docker
+# add a model with classification
 # add text
-
-# documentation
