@@ -32,7 +32,7 @@ server = app.server
 
 
 # Load news per year
-with open('../feminicidioAvista/classification/data_to_visualize/dict_tables_news_per_year.json') as json_file:
+with open('./data_to_visualize/dict_tables_news_per_year.json') as json_file:
     dict_tables_per_year = json.load(json_file)
 
 
