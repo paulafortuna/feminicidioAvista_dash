@@ -1,5 +1,4 @@
-# feminicidioAvista_dash
-![icons](https://github.com/paulafortuna/images/blob/main/icons.jpg)
+# feminicidioAvista_dash ![icons](https://github.com/paulafortuna/images/blob/main/icons.jpg)
 
 This repository presents the front-end app developed for the "Feminicidio à Vista" project.
 This Github Repository it is continously deployed in Heroku and you can find the running app [here]( https://feminicidioavista.herokuapp.com/).
