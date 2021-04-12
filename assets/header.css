@@ -65,7 +65,7 @@ body, #frequencies_plot_section_container {
     top: 0; left: 0; bottom: 0; right: 0;
     font-size: 0.5vw;
 }
-#regions_plot, #animation_plot, #manifesto_description, #contacto_description {
+#regions_plot, #animation_plot, #manifesto_description, #manifesto_description2, #manifesto_description3, #manifesto_description4, #contacto_description {
     width: 50%;
     margin-left: auto;
     margin-right: auto;

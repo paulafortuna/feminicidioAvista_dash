@@ -78,7 +78,9 @@ app.layout = html.Div(children=[
                             ),
                     html.P(
                             id='pagedescription',
-                            children='"Feminicidio à Vista" surge como uma plataforma de ativismo de dados (“datactivism”), que chama a atenção e reivindica uma resposta para o problema da violência de género em Portugal.',
+                            children='Feminicídio à Vista surge como uma plataforma de ativismo de dados. Esta chama a atenção '
+                                     'e reivindica uma resposta para o problema da violência de género em Portugal, que leva muitas '
+                                     'vezes ao extermínio de mulheres. Define-se como uma plataforma open-source para questionar relações de poder.',
                     ),
 
                 ],
@@ -98,7 +100,8 @@ app.layout = html.Div(children=[
                         html.H3("NEM UMA A MENOS!"),
                         html.P(
                             id='animation_description',
-                            children='Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.Nesta animacao coisas acontecem.',
+                            children='Na maioria dos casos de feminicídio encontrados, os intervenientes têm algum tipo de relação. '
+                                     'Contudo, existe uma multiplicidade de histórias demostram a diversidade deste crime que não devemos esquecer.',
                         ),
                         html.Div(id='animation_description_container_fill'),
                         html.Div(id='animation_container',
@@ -122,7 +125,9 @@ app.layout = html.Div(children=[
                             html.H3("NOTÍCIAS NO TEMPO"),
                             html.P(
                                 id='time_description',
-                                children='O número de notícias referentes a casos de feminicídio parece estar a aumentar ao longo do tempo. Isto pode indicar um aumento de feminicídios, um maior interesse jornalístico no tema, ou também uma maior facilidade em aceder a notícias mais recentes.',
+                                children='O número de notícias referentes a casos de feminicídio parece estar a aumentar ao longo do tempo. '
+                                         'Isto pode indicar um aumento de feminicídios, um maior interesse jornalístico no tema, '
+                                         'ou também uma maior facilidade em aceder a notícias mais recentes através do Arquivo.pt.',
                             ),
                             dcc.Graph(
                                 id='graph',
@@ -159,7 +164,9 @@ app.layout = html.Div(children=[
                     html.H3("NOTÍCIAS POR DISTRITOS"),
                     html.P(
                         id='regions_description',
-                        children='Mais feminicídios tèm ocorrido nas regiões mais populosas do país. Contudo, a relação entre crime e número de habitantes não é linear. ...',
+                        children='Mais feminicídios têm ocorrido nas regiões mais populosas do país. Contudo, a relação '
+                                 'entre crime e número de habitantes não é linear. Por exemplo, Braga é a terceira região '
+                                 'mais populosa do país, mas aparece atrás de Setúbal e Santarém com menos casos que estes.',
                     ),
                     dcc.Loading(
                         id="loading-1",
@@ -200,17 +207,50 @@ app.layout = html.Div(children=[
             html.H3("MANIFESTO"),
             html.P(
                 id='manifesto_description',
-                children='Neste manifesto.',
+                children='O objectivo da plataforma Feminicídio à Vista é dar visibilidade ao problema do feminicídio e '
+                         'não deixar que as mulheres assassinadas sejam esquecidas. Para isso, o Arquivo.pt permitiu '
+                         'recuperar estas histórias e anotar um conjunto de dados sobre feminicídios que se disponibilizam '
+                         'à comunidade. Estes dados podem ser utilizados não só por outros investigadores, mas também '
+                         'para construir modelos com tecnologias de inteligência artificial para anotar novas notícias '
+                         'e propriedades das notícias referentes a feminicídios.'
+            ),
+            html.P(
+                id='manifesto_description2',
+                children='Feminicídio é um termo relativamente recente, que designa o extermínio de mulheres.'
+                         ' Estes crimes não podem ser vistos como desligados das questões de género e da intencionalidade de controlar a '
+                         'existência e comportamento femininos. Em alguns países, o termo feminicídio passou a estar contemplado na lei. '
+                         'Contudo, esse não é o caso de Portugal. Em Portugal, existe um vazio legal [1] e falta de estudos a respeito do feminicídio [2]. ',
+            ),
+            html.P(
+                id='manifesto_description3',
+                children= 'O projecto Feminicidio à Vista complementa outros esforços de investigação [3] ao disponibilizar '
+                         'à comunidade não só um conjunto de dados mas também uma plataforma open source. Nesta é possível '
+                         'relembrar as vítimas e de uma forma dinâmica ver a relação entre as notícias individuais '
+                         'e estatísticas no tempo e espaço. '
+                        'Se, por um lado, os dados apresentados fazem referência a casos individuais de feminicídio, '
+                         'por outro lado, o feminicídio é um problema que requer uma resposta da sociedade. Para isso é '
+                         'necessário agir e os primeiros passos são reconhecer o feminicídio legalmente, recolher dados '
+                         'e analizá-los para se poder intervir. ',
+            ),
+            html.P(
+                id='manifesto_description4',
+                children= '*Este projeto não é*: um conjunto de estatísticas oficial sobre o feminicídio em Portugal. '
+                          'Neste projeto foram recolhidas notícias no Arquivo.pt como fonte de informação. '
+                          'Este método pode por si só conter erros e deixar de fora alguns casos. Este projeto é apenas '
+                          'um esforço inicial de recolha de dados, que aponta a necessidade de documentar estes crimes '
+                          'oficialmente e de forma mais estruturada.',
             )
         ],
     ),
     html.Div(
         id='contacto',
         children=[
-            html.H3("CONTATO"),
+            html.H3("+INFO"),
             html.P(
                 id='contacto_description',
-                children='Contato.',
+                children= ['Para saber mais sobre o projeto e autora podem visitar:',
+                           dcc.Markdown('''[GitHub](https://github.com/paulafortuna/feminicidioAvista) e [LinkedIn](https://pt.linkedin.com/in/paula-fortuna-a6b75a7a).''')
+                           ]
             )
         ],
     ),
