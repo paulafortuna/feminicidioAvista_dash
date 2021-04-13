@@ -238,7 +238,7 @@ app.layout = html.Div(children=[
                           'Neste projeto foram recolhidas notícias no Arquivo.pt como fonte de informação. '
                           'Este método pode por si só conter erros e deixar de fora alguns casos. Este projeto é apenas '
                           'um esforço inicial de recolha de dados, que aponta a necessidade de documentar estes crimes '
-                          'oficialmente e de forma mais estruturada.',
+                          'oficialmente e de forma mais estruturada. ',
             )
         ],
     ),
