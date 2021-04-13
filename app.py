@@ -101,7 +101,7 @@ app.layout = html.Div(children=[
                         html.P(
                             id='animation_description',
                             children='Na maioria dos casos de feminicídio encontrados, os intervenientes têm algum tipo de relação. '
-                                     'Contudo, existe uma multiplicidade de histórias demostram a diversidade deste crime que não devemos esquecer.',
+                                     'Contudo, a multiplicidade de histórias demostra a diversidade destes crimes que não devemos esquecer.',
                         ),
                         html.Div(id='animation_description_container_fill'),
                         html.Div(id='animation_container',
@@ -166,7 +166,7 @@ app.layout = html.Div(children=[
                         id='regions_description',
                         children='Mais feminicídios têm ocorrido nas regiões mais populosas do país. Contudo, a relação '
                                  'entre crime e número de habitantes não é linear. Por exemplo, Braga é a terceira região '
-                                 'mais populosa do país, mas aparece atrás de Setúbal e Santarém com menos casos que estes.',
+                                 'mais populosa do país, mas aparece atrás de Setúbal e Santarém com menos casos que estes distritos.',
                     ),
                     dcc.Loading(
                         id="loading-1",
