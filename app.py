@@ -249,7 +249,8 @@ app.layout = html.Div(children=[
             html.P(
                 id='contacto_description',
                 children= ['Para saber mais sobre o projeto e entrar em contacto com a autora podem visitar:',
-                           dcc.Markdown('''[GitHub](https://github.com/paulafortuna/feminicidioAvista) e [LinkedIn](https://pt.linkedin.com/in/paula-fortuna-a6b75a7a).''')
+                           dcc.Markdown('''[GitHub](https://github.com/paulafortuna/feminicidioAvista) e [LinkedIn](https://pt.linkedin.com/in/paula-fortuna-a6b75a7a).'''),
+                            dcc.Markdown('''[EN](https://feminicidioavistaen.herokuapp.com/)'''),
                            ]
             )
         ],
