@@ -234,7 +234,7 @@ app.layout = html.Div(children=[
             ),
             html.P(
                 id='manifesto_description4',
-                children= '*Este projeto não é*: um conjunto de estatísticas oficial sobre o feminicídio em Portugal. '
+                children= '*Este projeto não é*: um conjunto de estatísticas oficiais sobre o feminicídio em Portugal. '
                           'Neste projeto foram recolhidas notícias no Arquivo.pt como fonte de informação. '
                           'Este método pode por si só conter erros e deixar de fora alguns casos. Este projeto é apenas '
                           'um esforço inicial de recolha de dados, que aponta a necessidade de documentar estes crimes '
