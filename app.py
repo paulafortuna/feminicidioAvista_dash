@@ -108,10 +108,11 @@ app.layout = html.Div(children=[
                     ),
                     html.P(
                         id='manifesto_description3',
-                        children='Se, por um lado, os dados apresentados fazem referência a casos individuais de feminicídio, '
+                        children='Se, por um lado, os dados apresentados fazem referência a casos individuais, '
                                  'por outro lado, o feminicídio é um problema que requer uma resposta da sociedade. Para isso é '
                                  'necessário agir e os primeiros passos são reconhecer o feminicídio legalmente, recolher dados '
-                                 'e analizá-los para se poder intervir. ',
+                                 'e analizá-los para se poder intervir. Nesta plataforma apresenta-se um conjunto de dados '
+                                 'e estatísticas sobre este problema.',
                     ),
                 ],
             ),
@@ -237,8 +238,8 @@ app.layout = html.Div(children=[
                     html.P(
                         id='dataset_description1',
                         children='O projecto Feminicidio à Vista complementa outros esforços de investigação [3] ao utilizar o '
-                                 'Arquivo-pt para recuperar as histórias de feminicídios em Portugal e anotar um conjunto de dados '
-                                 'que se disponibiliza à comunidade. Assente nos princípios de open source, nesta plataforma é possível '
+                                 'Arquivo.pt para recuperar as histórias de feminicídios em Portugal e anotar um conjunto de dados '
+                                 'que se disponibiliza à comunidade. Assente nos princípios de open-source, nesta plataforma é possível '
                                  'relembrar as vítimas e de uma forma dinâmica ver a relação entre as notícias individuais '
                                  'e estatísticas no tempo e espaço. ',
                     ),
