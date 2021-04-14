@@ -256,7 +256,7 @@ app.layout = html.Div(children=[
 
                     html.P(
                         id='dataset_description3',
-                        children= [ dcc.Markdown('''O dataset pode ser acedido aqui: [dataset](https://feminicidioavistaen.herokuapp.com/)'''),
+                        children= [ dcc.Markdown('''O dataset pode ser acedido aqui: [dataset](https://github.com/paulafortuna/feminicidioAvista_dataset)'''),
                                     '*Este projeto não é*: um conjunto de estatísticas oficiais sobre o feminicídio em Portugal. '
                                  'Neste projeto foram recolhidas notícias no Arquivo.pt como fonte de informação. '
                                  'Este método pode por si só conter erros e deixar de fora alguns casos. Apresenta-se aqui '
