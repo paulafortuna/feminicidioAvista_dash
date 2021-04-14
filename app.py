@@ -108,11 +108,15 @@ app.layout = html.Div(children=[
                     ),
                     html.P(
                         id='manifesto_description3',
-                        children='Se, por um lado, os dados apresentados fazem referência a casos individuais, '
+                        children=['Se, por um lado, os dados apresentados fazem referência a casos individuais, '
                                  'por outro lado, o feminicídio é um problema que requer uma resposta da sociedade. Para isso é '
-                                 'necessário agir e os primeiros passos são reconhecer o feminicídio legalmente, recolher dados '
-                                 'e analizá-los para se poder intervir. Nesta plataforma apresenta-se um conjunto de dados '
-                                 'e estatísticas sobre este problema.',
+                                 'necessário agir e os primeiros passos são:',
+                                dcc.Markdown('''1. reconhecer o feminicídio legalmente;'''),
+                                dcc.Markdown('''2. recolher dados e identificar a ausência de dados também como informação;'''),
+                                dcc.Markdown('''3. analisar dados para informar políticas e intervenções;'''),
+                                dcc.Markdown('''4. e fazê-lo colaborativamente através de uma plataforma open-source;'''),
+                                 'Guiado por estes princípios, o Feminicídio À Vista apresenta um conjunto de dados e estatísticas '
+                                 'sobre o feminicídio em Portugal Continental.',]
                     ),
                 ],
             ),
@@ -234,7 +238,7 @@ app.layout = html.Div(children=[
             html.Div(
                 id='dataset_section',
                 children=[
-                    html.H3("DATASET E DETALHES TÉCNICOS"),
+                    html.H3("DATASET E DETALHES"),
                     html.P(
                         id='dataset_description1',
                         children='O projecto Feminicidio à Vista complementa outros esforços de investigação [3] ao utilizar o '
