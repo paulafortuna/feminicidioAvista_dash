@@ -56,8 +56,8 @@ fig_anim = plotly.io.read_json('./data_to_visualize/plot_animation.json')
 fig = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_year.json')
 
 # Cloropleth plot
-#fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
-fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
+fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
+#fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
 
 
 
@@ -297,8 +297,8 @@ def update_output(*args):
 @app.callback(Output('table_region_output', 'data'), [
     Input('choropleth', 'clickData')])
 def update_output(*args):
-    district = args[0]['points'][0]['location'] #instruction to cloropeth
-    #district = args[0]['points'][0]['x'] #instruction to barplot
+    #district = args[0]['points'][0]['location'] #instruction to cloropeth
+    district = args[0]['points'][0]['x'] #instruction to barplot
     return dict_tables_per_district[district]
 
 
