@@ -56,8 +56,8 @@ fig_anim = plotly.io.read_json('./data_to_visualize/plot_animation.json')
 fig = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_year.json')
 
 # Cloropleth plot
-fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
-#fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
+#fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district_bar.json')  # to bar
+fig_plot = plotly.io.read_json('./data_to_visualize/plot_feminicide_per_district.json') # to cloropeth
 
 
 
@@ -88,6 +88,32 @@ app.layout = html.Div(children=[
             html.Div(
                     id='continue',
                     children='Continuar a explorar abaixo',
+            ),
+        ],
+    ),
+    html.Div(
+        id='manifesto_container',
+        children=[
+            html.Div(
+                id='manifesto',
+                children=[
+                    html.H3("MANIFESTO"),
+                    html.P(
+                        id='manifesto_description',
+                        children='O objetivo da plataforma Feminicídio à Vista é dar visibilidade ao problema do feminicídio e '
+                                 'não deixar que as mulheres assassinadas sejam esquecidas. '
+                                    'Estes crimes não podem ser vistos como desligados das questões de género e da intencionalidade de controlar a '
+                                 'existência e comportamento femininos. Em alguns países, o termo feminicídio passou a estar contemplado na lei. '
+                                 'Contudo, em Portugal existe um vazio legal [1] e falta de estudos a respeito do feminicídio [2]. ',
+                    ),
+                    html.P(
+                        id='manifesto_description3',
+                        children='Se, por um lado, os dados apresentados fazem referência a casos individuais de feminicídio, '
+                                 'por outro lado, o feminicídio é um problema que requer uma resposta da sociedade. Para isso é '
+                                 'necessário agir e os primeiros passos são reconhecer o feminicídio legalmente, recolher dados '
+                                 'e analizá-los para se poder intervir. ',
+                    ),
+                ],
             ),
         ],
     ),
@@ -202,44 +228,44 @@ app.layout = html.Div(children=[
         ],
     ),
     html.Div(
-        id='manifesto',
+        id='dataset_container',
         children=[
-            html.H3("MANIFESTO"),
-            html.P(
-                id='manifesto_description',
-                children='O objectivo da plataforma Feminicídio à Vista é dar visibilidade ao problema do feminicídio e '
-                         'não deixar que as mulheres assassinadas sejam esquecidas. Para isso, o Arquivo.pt permitiu '
-                         'recuperar estas histórias e anotar um conjunto de dados sobre feminicídios que se disponibilizam '
-                         'à comunidade. Estes dados podem ser utilizados não só por outros investigadores, mas também '
-                         'para construir modelos com tecnologias de inteligência artificial para anotar novas notícias '
-                         'e propriedades das notícias referentes a feminicídios.'
+            html.Div(
+                id='dataset_section',
+                children=[
+                    html.H3("DATASET E DETALHES TÉCNICOS"),
+                    html.P(
+                        id='dataset_description1',
+                        children='O projecto Feminicidio à Vista complementa outros esforços de investigação [3] ao utilizar o '
+                                 'Arquivo-pt para recuperar as histórias de feminicídios em Portugal e anotar um conjunto de dados '
+                                 'que se disponibiliza à comunidade. Assente nos princípios de open source, nesta plataforma é possível '
+                                 'relembrar as vítimas e de uma forma dinâmica ver a relação entre as notícias individuais '
+                                 'e estatísticas no tempo e espaço. ',
+                    ),
+                    html.P(
+                        id='dataset_description2',
+                        children='Estes dados podem ser utilizados não só por investigadores de diversas áreas, mas também '
+                                 'para construir modelos com tecnologias de inteligência artificial e anotar novas notícias '
+                                 'e propriedades das notícias referentes a feminicídios.'
+                    ),
+
+                    html.P(
+                        id='dataset_description3',
+                        children= [ dcc.Markdown('''O dataset pode ser acedido aqui: [dataset](https://feminicidioavistaen.herokuapp.com/)'''),
+                                    '*Este projeto não é*: um conjunto de estatísticas oficiais sobre o feminicídio em Portugal. '
+                                 'Neste projeto foram recolhidas notícias no Arquivo.pt como fonte de informação. '
+                                 'Este método pode por si só conter erros e deixar de fora alguns casos. Apresenta-se aqui '
+                                 'um esforço inicial de recolha de dados, que aponta a necessidade de documentar estes crimes '
+                                 'oficialmente e de forma mais estruturada. ',
+                                   '',
+                                    html.H4("Fontes:"),
+                                   dcc.Markdown('''\[1\] [A transversalidade dos crimes de femicídio/feminicídio no Brasil e em Portugal](https://hdl.handle.net/10216/123178)'''),
+                                   dcc.Markdown('''\[2\] [Femminicidio in Europa un confronto tra paesi](https://www.europeandatajournalism.eu/ita/Notizie/Data-news/Femminicidio-in-Europa-un-confronto-tra-paesi)'''),
+                                   dcc.Markdown('''\[3\] [Observatorio de mulheres assassinadas](http://www.umarfeminismos.org/index.php/observatorio-de-mulheres-assassinadas)'''),
+                                   ]
+                    )
+                ],
             ),
-            html.P(
-                id='manifesto_description2',
-                children='Feminicídio é um termo relativamente recente, que designa o extermínio de mulheres.'
-                         ' Estes crimes não podem ser vistos como desligados das questões de género e da intencionalidade de controlar a '
-                         'existência e comportamento femininos. Em alguns países, o termo feminicídio passou a estar contemplado na lei. '
-                         'Contudo, esse não é o caso de Portugal. Em Portugal, existe um vazio legal [1] e falta de estudos a respeito do feminicídio [2]. ',
-            ),
-            html.P(
-                id='manifesto_description3',
-                children= 'O projecto Feminicidio à Vista complementa outros esforços de investigação [3] ao disponibilizar '
-                         'à comunidade não só um conjunto de dados mas também uma plataforma open source. Nesta é possível '
-                         'relembrar as vítimas e de uma forma dinâmica ver a relação entre as notícias individuais '
-                         'e estatísticas no tempo e espaço. '
-                        'Se, por um lado, os dados apresentados fazem referência a casos individuais de feminicídio, '
-                         'por outro lado, o feminicídio é um problema que requer uma resposta da sociedade. Para isso é '
-                         'necessário agir e os primeiros passos são reconhecer o feminicídio legalmente, recolher dados '
-                         'e analizá-los para se poder intervir. ',
-            ),
-            html.P(
-                id='manifesto_description4',
-                children= '*Este projeto não é*: um conjunto de estatísticas oficiais sobre o feminicídio em Portugal. '
-                          'Neste projeto foram recolhidas notícias no Arquivo.pt como fonte de informação. '
-                          'Este método pode por si só conter erros e deixar de fora alguns casos. Este projeto é apenas '
-                          'um esforço inicial de recolha de dados, que aponta a necessidade de documentar estes crimes '
-                          'oficialmente e de forma mais estruturada. ',
-            )
         ],
     ),
     html.Div(
@@ -271,8 +297,8 @@ def update_output(*args):
 @app.callback(Output('table_region_output', 'data'), [
     Input('choropleth', 'clickData')])
 def update_output(*args):
-    #district = args[0]['points'][0]['location'] #instruction to cloropeth
-    district = args[0]['points'][0]['x'] #instruction to barplot
+    district = args[0]['points'][0]['location'] #instruction to cloropeth
+    #district = args[0]['points'][0]['x'] #instruction to barplot
     return dict_tables_per_district[district]
 
 

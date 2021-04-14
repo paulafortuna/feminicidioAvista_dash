@@ -71,6 +71,12 @@ body, #frequencies_plot_section_container {
     margin-right: auto;
 }
 
+#dataset_description1, #dataset_description2, #dataset_description3, #dataset_description4 {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #pagename {
     font-size: 6vw;
 }
